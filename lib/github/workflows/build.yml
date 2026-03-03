@@ -1,0 +1,17 @@
+name: Build Aura Cam APK
+on: [push] # This means every time you save code, it builds the app
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+      - run: flutter pub get
+      - run: flutter build apk --debug # Debug build is easiest for sharing
+      - name: Upload APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: aura-cam-app
+          path: build/app/outputs/flutter-apk/app-debug.apk
