@@ -1,0 +1,27 @@
+name: Build Aura Cam APK
+on: [push, workflow_dispatch]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          # This ensures the factory has the right tools installed
+          cache: true 
+
+      - name: Get App Ingredients
+        run: flutter pub get # This is the "Drill" instead of the "Screwdriver"
+
+      - name: Build the APK
+        run: flutter build apk --debug
+
+      - name: Upload the finished APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: aura-cam-app
+          path: build/app/outputs/flutter-apk/app-debug.apk
