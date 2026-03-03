@@ -1,22 +1,16 @@
-name: Build Aura Cam APK
-on:
-  push:
-    branches: [ "main" ]
-  workflow_dispatch: # This adds a manual "Run" button
+name: aura_cam
+description: AI Camera App
+version: 1.0.0+1
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: subosito/flutter-action@v2
-        with:
-          channel: 'stable'
-      - run: flutter pub get
-      - run: flutter build apk --debug
-      - name: Upload APK
-        uses: actions/upload-artifact@v3
-        with:
-          name: aura-cam-app
-          path: build/app/outputs/flutter-apk/app-debug.apk
-          
+environment:
+  sdk: '>=3.11.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  camera: ^0.10.5
+  http: ^1.1.0
+  google_mobile_ads: ^3.0.0
+
+flutter:
+  uses-material-design: true
