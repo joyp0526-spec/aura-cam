@@ -1,16 +1,27 @@
-name: aura_cam
-description: AI Camera App
-version: 1.0.0+1
+name: Build Aura Cam APK
+on: [push, workflow_dispatch]
 
-environment:
-  sdk: '>=3.11.0 <4.0.0'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4 # Updated to v4
 
-dependencies:
-  flutter:
-    sdk: flutter
-  camera: ^0.10.5
-  http: ^1.1.0
-  google_mobile_ads: ^3.0.0
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true 
 
-flutter:
-  uses-material-design: true
+      - name: Get App Ingredients
+        run: flutter pub get 
+
+      - name: Build the APK
+        run: flutter build apk --debug
+
+      - name: Upload the finished APK
+        uses: actions/upload-artifact@v4 # Updated to v4! This fixes the error.
+        with:
+          name: aura-cam-app
+          path: build/app/outputs/flutter-apk/app-debug.apk
