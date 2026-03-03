@@ -5,23 +5,23 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout Code
+        uses: actions/checkout@v4 # Updated to v4
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          # This ensures the factory has the right tools installed
           cache: true 
 
       - name: Get App Ingredients
-        run: flutter pub get # This is the "Drill" instead of the "Screwdriver"
+        run: flutter pub get 
 
       - name: Build the APK
         run: flutter build apk --debug
 
       - name: Upload the finished APK
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4 # Updated to v4! This fixes the error.
         with:
           name: aura-cam-app
           path: build/app/outputs/flutter-apk/app-debug.apk
